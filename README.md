@@ -43,6 +43,8 @@ classDiagram
         +StartGame() : void
         +ProcessTurn(player : Player) : void
         +CheckGameOver() : bool
+        +MakeMove() : void
+        +ReceiveMove() : void
     }
 
     class TCPReceiver {
@@ -65,8 +67,6 @@ classDiagram
         -answerList : List<int>
         -myAnswer : int
         +Player(name : string, isLocal : bool)
-        +MakeMove() : void
-        +ReceiveMove() : void
     }
 
     GameManager --> Player
@@ -99,6 +99,18 @@ isMyTurn : bool : 現在のターンが自分かどうかを示すフラグで�
 
 ゲーム終了条件をチェックするメソッドです。例えば、どちらかのプレイヤーが正解を当てた場合や、ターン数が上限に達した場合など、ゲーム終了を判断します。<br>
 true を返すとゲームループを終了し、結果を表示します。<br>
+
+#### MakeMove() : void :
+
+自分のターンで行う動作です。ユーザーに推測値を入力させ、その値を相手に送信します。TCPSender を使ってメッセージを送信します。<br>
+例：プレイヤーに「Enter your guess:」とプロンプトを表示し、推測を入力させます。<br>
+表形式に今までの入力を出力できるようにエンハンスしたい。
+
+#### ReceiveMove() : void :
+
+相手プレイヤーの推測値を受信するためのメソッドです。TCPReceiver を使用して相手からのメッセージを受信し、その推測値をゲームに反映します。<br>
+例：相手のターンで「Opponent guessed: 1234」などのメッセージが表示されます。<br>
+表形式に今までの入力を出力できるようにエンハンスしたい。
 
 ### TCPReceiver
 
@@ -153,18 +165,6 @@ isLocal : bool :プレイヤーがローカル（自分）かリモート（相�
 
 #### メソッド:
 
-#### Player(name : string, isLocal : bool) (コンストラクタ) :
+#### Player(name : string, isLocal : bool, isHost : bool, myAnswer : int) (コンストラクタ) :
 
 プレイヤー名とローカルプレイヤーかどうかのフラグを設定するコンストラクタです。ゲーム開始時に各プレイヤーを初期化します。<br>
-
-#### MakeMove() : void :
-
-自分のターンで行う動作です。ユーザーに推測値を入力させ、その値を相手に送信します。TCPSender を使ってメッセージを送信します。<br>
-例：プレイヤーに「Enter your guess:」とプロンプトを表示し、推測を入力させます。<br>
-表形式に今までの入力を出力できるようにエンハンスしたい。
-
-#### ReceiveMove() : void :
-
-相手プレイヤーの推測値を受信するためのメソッドです。TCPReceiver を使用して相手からのメッセージを受信し、その推測値をゲームに反映します。<br>
-例：相手のターンで「Opponent guessed: 1234」などのメッセージが表示されます。<br>
-表形式に今までの入力を出力できるようにエンハンスしたい。
