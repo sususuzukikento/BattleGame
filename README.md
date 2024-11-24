@@ -50,8 +50,7 @@ classDiagram
     class TCPReceiver {
         -listener : TcpListener
         +TCPReceiver(port : int)
-        +StartReceiving() : void
-        +ReceiveMessage() : string
+        +StartReceiving() : string
     }
 
     class TCPSender {
@@ -125,15 +124,11 @@ listener : TcpListener :指定したポートで TCP 接続を待機するため
 指定されたポート番号で TCP リスナーを初期化します。受信側の通信準備を行います。<br>
 例：new TCPReceiver(12345) とすることで、ポート 12345 で接続待機を開始します。<br>
 
-#### StartReceiving() : void :
+#### StartReceiving() : string :
 
 リスナーを開始し、クライアントからの接続を待機します。接続があればクライアントとの通信を処理し、メッセージを受信します。<br>
 メッセージ受信後、クライアントの接続を閉じます。メインループで繰り返し待機し、相手のターンに相手の推測を受け取る際に使われます。<br>
-
-#### ReceiveMessage() : string :
-
-TCP 接続を確立し、相手からのメッセージを受信します。データをバイト配列で受信し、文字列に変換して返します。<br>
-例：相手の推測値をこのメソッドで受け取ります。<br>
+受信したメッセージを戻り値として返す。
 
 ### TCPSender
 
